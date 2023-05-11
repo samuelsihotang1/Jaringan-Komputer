@@ -2,8 +2,6 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-  public final static int REMOTE_PORT = 424;
-
   public static void main(String args[]) throws Exception {
     Socket cl = null;
     BufferedReader is = null;
@@ -11,24 +9,14 @@ public class Client {
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
     String userInput = null;
     String output = null;
-    boolean stop = false;
-    try {
-      cl = new Socket("localhost", REMOTE_PORT);
-      is = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-      os = new DataOutputStream(cl.getOutputStream());
-      System.out.println("Koneksi ke server berhasil!");
-    } catch (UnknownHostException el) {
-      System.out.println("Gagal Mengakses Host");
-      stop = true;
-    } catch (IOException e2) {
-      System.out.println("Gagal Mengakses Host");
-      stop = true;
-    }
 
-    if (stop == true) {
-      System.exit(0);
-    }
+    // Connect to server
+    cl = connectToServer(stdin);
+    is = new BufferedReader(new InputStreamReader(cl.getInputStream()));
+    os = new DataOutputStream(cl.getOutputStream());
+    // Connect to server
 
+    // Chat loop
     while (true) {
       if (stdin != null) {
         userInput = stdin.readLine();
@@ -46,6 +34,7 @@ public class Client {
       }
     }
 
+    // Close connection
     try {
       is.close();
       os.close();
@@ -53,5 +42,34 @@ public class Client {
     } catch (IOException x) {
       System.out.println("Gagal Menutup Koneksi" + x);
     }
+  }
+
+  // Function to Connect to Server
+  private static Socket connectToServer(BufferedReader stdin) throws IOException {
+    Socket cl = null;
+    boolean again = false;
+    int REMOTE_PORT;
+
+    do {
+      try {
+        if (again == true) {
+          System.out.print("Coba Masukkan Kembali Host: ");
+        } else {
+          System.out.print("Masukkan Host: ");
+        }
+        REMOTE_PORT = Integer.parseInt(stdin.readLine());
+        cl = new Socket("localhost", REMOTE_PORT);
+        again = false;
+      } catch (UnknownHostException el) {
+        System.out.println("Gagal Mengakses Host");
+        again = true;
+      } catch (IOException e2) {
+        System.out.println("Gagal Mengakses Host");
+        again = true;
+      }
+    } while (again == true);
+
+    System.out.println("Koneksi ke server berhasil!");
+    return cl;
   }
 }
