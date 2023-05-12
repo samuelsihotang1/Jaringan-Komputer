@@ -42,25 +42,22 @@ public class Client {
     try {
       while (true) {
         if (mode.equals("client")) {
-          if (stdin != null) {
-            userInput = stdin.readLine();
-            os.writeBytes(userInput + "\n");
-            if (userInput.equalsIgnoreCase("exit")) {
-              break;
-            }
-          }
-        }
-        if (is != null) {
+          System.out.print("Kamu: ");
+          userInput = stdin.readLine();
+          os.writeBytes(userInput + "\n");
           output = is.readLine();
-          if (output != null) {
-            if (mode.equals("server")) {
-              System.out.println("Dari client: " + output);
-            } else {
-              System.out.println("Dari server: " + output);
-            }
-            if (output.equalsIgnoreCase("exit")) {
-              break;
-            }
+          System.out.println("Teman: " + output);
+          if (userInput.equalsIgnoreCase("exit") || output.equalsIgnoreCase("exit")) {
+            break;
+          }
+        } else if (mode.equals("server")) {
+          output = is.readLine();
+          System.out.println("Teman: " + output);
+          System.out.print("Kamu: ");
+          userInput = stdin.readLine();
+          os.writeBytes(userInput + "\n");
+          if (userInput.equalsIgnoreCase("exit") || output.equalsIgnoreCase("exit")) {
+            break;
           }
         }
       }
