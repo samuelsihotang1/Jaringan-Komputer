@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-  public final static int TESTPORT = 1;
 
   public static void main(String args[]) throws Exception {
     ServerSocket checkServer = null;
@@ -13,18 +12,25 @@ public class Client {
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
     String userInput = null;
     String output = null;
+    String mode = null;
+    int TESTPORT = 1;
 
     // Determine mode: server or client
-    String mode = "client";
     if (args.length > 0 && args[0].equals("server")) {
       mode = "server";
+    }
+    if (args.length > 0 && args[0].equals("client")) {
+      mode = "client";
     }
 
     // Start server or connect to server
     if (mode.equals("server")) {
       try {
+        System.out.print("ID Anda: ");
+        String str = stdin.readLine();
+        TESTPORT = str.codePoints().sum();
         checkServer = new ServerSocket(TESTPORT);
-        System.out.println("Host aktif dengan ID: " + TESTPORT);
+        System.out.println("Host aktif dengan ID: " + str);
 
         clientSocket = checkServer.accept();
         is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -42,7 +48,7 @@ public class Client {
     try {
       while (true) {
         if (mode.equals("client")) {
-          System.out.print("Kamu: ");
+          System.out.print("Anda: ");
           userInput = stdin.readLine();
           os.writeBytes(userInput + "\n");
           output = is.readLine();
@@ -53,7 +59,7 @@ public class Client {
         } else if (mode.equals("server")) {
           output = is.readLine();
           System.out.println("Teman: " + output);
-          System.out.print("Kamu: ");
+          System.out.print("Anda: ");
           userInput = stdin.readLine();
           os.writeBytes(userInput + "\n");
           if (userInput.equalsIgnoreCase("exit") || output.equalsIgnoreCase("exit")) {
@@ -91,9 +97,11 @@ public class Client {
         if (again == true) {
           System.out.print("Coba Masukkan Kembali Host: ");
         } else {
-          System.out.print("Masukkan Host Target: ");
+          System.out.print("Masukkan ID Target: ");
         }
-        REMOTE_PORT = Integer.parseInt(stdin.readLine());
+        
+        String str = stdin.readLine();
+        REMOTE_PORT = str.codePoints().sum();
         cl = new Socket("localhost", REMOTE_PORT);
         again = false;
       } catch (UnknownHostException el) {
