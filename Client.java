@@ -2,7 +2,11 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
+  public final static int TESTPORT = 1;
+
   public static void main(String args[]) throws Exception {
+    ServerSocket checkServer = null;
+    Socket clientSocket = null;
     Socket cl = null;
     BufferedReader is = null;
     DataOutputStream os = null;
@@ -10,37 +14,72 @@ public class Client {
     String userInput = null;
     String output = null;
 
-    // Connect to server
-    cl = connectToServer(stdin);
-    is = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-    os = new DataOutputStream(cl.getOutputStream());
-    // Connect to server
+    // Determine mode: server or client
+    String mode = "client";
+    if (args.length > 0 && args[0].equals("server")) {
+      mode = "server";
+    }
+
+    // Start server or connect to server
+    if (mode.equals("server")) {
+      try {
+        checkServer = new ServerSocket(TESTPORT);
+        System.out.println("Host aktif dengan ID: " + TESTPORT);
+
+        clientSocket = checkServer.accept();
+        is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        os = new DataOutputStream(clientSocket.getOutputStream());
+      } catch (IOException e) {
+        System.out.println(e);
+      }
+    } else {
+      cl = connectToServer(stdin);
+      is = new BufferedReader(new InputStreamReader(cl.getInputStream()));
+      os = new DataOutputStream(cl.getOutputStream());
+    }
 
     // Chat loop
-    while (true) {
-      if (stdin != null) {
-        userInput = stdin.readLine();
-        os.writeBytes(userInput + "\n");
-        if (userInput.equalsIgnoreCase("exit")) {
-          break;
+    try {
+      while (true) {
+        if (mode.equals("client")) {
+          if (stdin != null) {
+            userInput = stdin.readLine();
+            os.writeBytes(userInput + "\n");
+            if (userInput.equalsIgnoreCase("exit")) {
+              break;
+            }
+          }
+        }
+        if (is != null) {
+          output = is.readLine();
+          if (output != null) {
+            if (mode.equals("server")) {
+              System.out.println("Dari client: " + output);
+            } else {
+              System.out.println("Dari server: " + output);
+            }
+            if (output.equalsIgnoreCase("exit")) {
+              break;
+            }
+          }
         }
       }
-      if (is != null) {
-        output = is.readLine();
-        System.out.println("Dari server: " + output);
-        if (output.equalsIgnoreCase("exit")) {
-          break;
-        }
-      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     // Close connection
     try {
       is.close();
       os.close();
-      cl.close();
+      if (mode.equals("server")) {
+        clientSocket.close();
+        checkServer.close();
+      } else {
+        cl.close();
+      }
     } catch (IOException x) {
-      System.out.println("Gagal Menutup Koneksi" + x);
+      System.out.println("Gagal Menutup Koneksi");
     }
   }
 
@@ -55,7 +94,7 @@ public class Client {
         if (again == true) {
           System.out.print("Coba Masukkan Kembali Host: ");
         } else {
-          System.out.print("Masukkan Host: ");
+          System.out.print("Masukkan Host Target: ");
         }
         REMOTE_PORT = Integer.parseInt(stdin.readLine());
         cl = new Socket("localhost", REMOTE_PORT);
