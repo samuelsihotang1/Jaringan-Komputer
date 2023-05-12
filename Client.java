@@ -30,11 +30,10 @@ public class Client {
         String str = stdin.readLine();
         TESTPORT = str.codePoints().sum();
         checkServer = new ServerSocket(TESTPORT);
-        System.out.println("Host aktif dengan ID: " + str);
-
         clientSocket = checkServer.accept();
         is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         os = new DataOutputStream(clientSocket.getOutputStream());
+        System.out.println("Kamu telah terhubung");
       } catch (IOException e) {
         System.out.println(e);
       }
@@ -51,18 +50,24 @@ public class Client {
           System.out.print("Anda: ");
           userInput = stdin.readLine();
           os.writeBytes(userInput + "\n");
+          if (userInput.equalsIgnoreCase("exit")) {
+            break;
+          }
           output = is.readLine();
           System.out.println("Teman: " + output);
-          if (userInput.equalsIgnoreCase("exit") || output.equalsIgnoreCase("exit")) {
+          if (output.equalsIgnoreCase("exit")) {
             break;
           }
         } else if (mode.equals("server")) {
           output = is.readLine();
           System.out.println("Teman: " + output);
+          if (output.equalsIgnoreCase("exit")) {
+            break;
+          }
           System.out.print("Anda: ");
           userInput = stdin.readLine();
           os.writeBytes(userInput + "\n");
-          if (userInput.equalsIgnoreCase("exit") || output.equalsIgnoreCase("exit")) {
+          if (userInput.equalsIgnoreCase("exit")) {
             break;
           }
         }
@@ -87,7 +92,7 @@ public class Client {
   }
 
   // Function to Connect to Server
-  private static Socket connectToServer(BufferedReader stdin) throws IOException {
+  public static Socket connectToServer(BufferedReader stdin) throws IOException {
     Socket cl = null;
     boolean again = false;
     int REMOTE_PORT;
@@ -95,25 +100,25 @@ public class Client {
     do {
       try {
         if (again == true) {
-          System.out.print("Coba Masukkan Kembali Host: ");
+          System.out.print("Coba Masukkan Kembali ID: ");
         } else {
           System.out.print("Masukkan ID Target: ");
         }
-        
+
         String str = stdin.readLine();
         REMOTE_PORT = str.codePoints().sum();
         cl = new Socket("localhost", REMOTE_PORT);
         again = false;
       } catch (UnknownHostException el) {
-        System.out.println("Gagal Mengakses Host");
+        System.out.println("Gagal Mengakses Target");
         again = true;
       } catch (IOException e2) {
-        System.out.println("Gagal Mengakses Host");
+        System.out.println("Gagal Mengakses Target");
         again = true;
       }
     } while (again == true);
 
-    System.out.println("Koneksi ke server berhasil!");
+    System.out.println("Kamu telah terhubung");
     return cl;
   }
 }
