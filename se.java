@@ -7,7 +7,6 @@ public class se {
 
   public static void main(String[] args) throws IOException {
     ServerSocket server = new ServerSocket(12345);
-    System.out.println("Port Server adalah 12345");
 
     while (true) {
       Socket client = server.accept();
@@ -28,21 +27,17 @@ public class se {
     public void run() {
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        PrintWriter out;
         userID = in.readLine();
-        System.out.println("[" + userID + "] bergabung");
         while (true) {
           String message = in.readLine();
           if (message == null) {
             clients.remove(client);
-            System.out.println("[" + userID + "] keluar");
             break;
           }
-          System.out.println("[" + userID  + "] > " + message);
-          for (Socket otherClient : clients) {
-            if (otherClient != client) {
-              PrintWriter out = new PrintWriter(otherClient.getOutputStream(), true);
-              out.println(userID + ": " + message);
-            }
+          for (Socket Client : clients) {
+            out = new PrintWriter(Client.getOutputStream(), true);
+            out.println("[" + userID + "] > " + message);
           }
         }
       } catch (IOException e) {
