@@ -23,8 +23,8 @@ public class cl {
         }
         out.println(message);
       }
+      socket.close();
     } else if (args.length != 0 && args[0].equals("receiver")) {
-
       Socket socket = new Socket("localhost", 12345);
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -32,6 +32,7 @@ public class cl {
         String response;
         while ((response = in.readLine()) != null) {
           System.out.println(response);
+          break;
         }
       }
     }
