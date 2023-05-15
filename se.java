@@ -8,7 +8,10 @@ public class se {
   private static List<Socket> clients = new ArrayList<Socket>();
 
   public static void main(String[] args) throws IOException {
-    ServerSocket server = new ServerSocket(12345);
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Masukkan Port: ");
+    int port = scanner.nextInt();
+    ServerSocket server = new ServerSocket(port);
 
     while (true) {
       Socket client = server.accept();
