@@ -25,7 +25,7 @@ public class Client {
         String filename = stdin.readLine();
 
         DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
-        os.writeBytes(filename); 
+        os.writeBytes(filename + "\n");
 
         File fileToSend = new File(filename);
         FileInputStream fileInputStream = new FileInputStream(fileToSend);
@@ -81,16 +81,16 @@ public class Client {
         InputStream inputStream = clientSocket.getInputStream();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 
+        // menerima nama file
+        BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        filename = is.readLine();
+
         // membuat folder hohohihe jika belum ada
         File folder = new File(foldername);
         if (!folder.exists()) {
           folder.mkdir();
         }
-
-        // menerima nama file
-        BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
-        filename = is.readLine();
-
+        
         // menuliskan file yang diterima ke disk
         FileOutputStream fileOutputStream = new FileOutputStream(foldername + "/" + filename);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
