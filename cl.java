@@ -5,8 +5,10 @@ public class cl {
   public static void main(String[] args) throws IOException {
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
     if (args.length != 0 && args[0].equals("sender")) {
-      System.out.print("Masukkan nomor port: ");
-      int port = Integer.parseInt(stdin.readLine());
+      System.out.print("Masukkan kata kunci: ");
+      String str = stdin.readLine();
+      int port = str.codePoints().sum();
+      
       Socket socket = new Socket("localhost", port);
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -24,8 +26,10 @@ public class cl {
       }
       socket.close();
     } else if (args.length != 0 && args[0].equals("receiver")) {
-      System.out.print("Masukkan nomor port: ");
-      int port = Integer.parseInt(stdin.readLine());
+      System.out.print("Masukkan kata kunci: ");
+      String str = stdin.readLine();
+      int port = str.codePoints().sum();
+
       Socket socket = new Socket("localhost", port);
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

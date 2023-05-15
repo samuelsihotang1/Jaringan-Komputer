@@ -9,8 +9,9 @@ public class se {
 
   public static void main(String[] args) throws IOException {
     Scanner scanner = new Scanner(System.in);
-    System.out.print("Masukkan Port: ");
-    int port = scanner.nextInt();
+    System.out.print("Masukkan kata kunci: ");
+    String str = scanner.nextLine();
+    int port = str.codePoints().sum();
     ServerSocket server = new ServerSocket(port);
 
     while (true) {
