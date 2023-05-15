@@ -7,14 +7,11 @@ public class cl {
     if (args.length != 0 && args[0].equals("sender")) {
       System.out.print("Masukkan nomor port: ");
       int port = Integer.parseInt(stdin.readLine());
-      System.out.print("ID Anda: ");
-      String userID = stdin.readLine();
-      if (userID.equals("---")) {
-        System.exit(0);
-      }
       Socket socket = new Socket("localhost", port);
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
+      System.out.print("ID Anda: ");
+      String userID = stdin.readLine();
       out.println(userID);
 
       while (true) {
