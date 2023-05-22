@@ -1,6 +1,6 @@
 # Client-to-Client Chat
 
-The provided program is a simple chat application that enables communication between a client and a server using sockets. The program follows a specific workflow to facilitate the chat process.
+This program is a simple chat application that enables communication between a client and a server using sockets. The program follows a specific workflow to facilitate the chat process.
 
 At the start, the program determines the mode, either "server" or "client," based on command-line arguments. In "server" mode, the program prompts the user for their ID, calculates a target port based on the sum of the ID's characters, and initiates a server socket to listen for incoming connections. On the other hand, in "client" mode, the program prompts the user for the target ID, calculates the target port using the same method, and establishes a socket connection to the server.
 
