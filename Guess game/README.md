@@ -1,15 +1,15 @@
 # Guess game
 
-Program yang diberikan adalah sebuah permainan tebak angka antara dua pemain yang dapat berjalan dalam mode server atau mode client. Program ini menggunakan socket untuk menghubungkan pemain-pemain tersebut. Berikut ini adalah penjelasan tentang cara kerja program tersebut secara sederhana.
+This program is a number guessing game between two players that can run in server mode or client mode. This program uses sockets to connect these players. The following is an explanation of how the program works simply.
 
-Program dimulai dengan mendeklarasikan variabel-variabel yang akan digunakan selama permainan, seperti ServerSocket, Socket, BufferedReader, DataOutputStream, dan sebagainya. Variabel-variabel ini akan digunakan untuk mengirim dan menerima data antara pemain.
+The program starts by declaring the variables that will be used during the game, such as ServerSocket, Socket, BufferedReader, DataOutputStream, and so on. These variables will be used to send and receive data between players.
 
-Selanjutnya, program menentukan mode apakah berjalan sebagai server atau client berdasarkan argumen yang diberikan saat menjalankan program. Jika mode server dipilih, program akan memulai server socket, menerima koneksi dari client, dan menyiapkan input/output stream untuk komunikasi. Jika mode client dipilih, program akan mencoba terhubung ke server yang ditentukan oleh pengguna.
+Next, the program determines whether to run as a server or client based on the arguments provided when running the program. If server mode is selected, the program will start the server socket, accept connections from clients, and prepare input/output streams for communication. If client mode is selected, the program will try to connect to the server specified by the user.
 
-Setelah itu, permainan dimulai. Program akan meminta inputan angka dari pemain yang sedang giliran. Pemain hanya diizinkan memasukkan angka dari 0 hingga 9. Angka yang dimasukkan akan dienkripsi menggunakan fungsi enkripsiKata dan dikirimkan ke lawan dengan menggunakan output stream.
+After that, the game starts. The program will ask for input numbers from players who are in turn. Players are only allowed to enter numbers from 0 to 9. The numbers entered will be encrypted using the Encryption function and sent to the opponent using the output stream.
 
-Setelah pemain mengirimkan angka, program akan menerima inputan angka dari lawan melalui input stream. Inputan ini akan didekripsi menggunakan fungsi dekripsiKata. Pemain yang sedang giliran akan diminta untuk menebak angka yang diinputkan oleh lawan. Jika tebakan pemain benar, pemain akan mendapatkan tambahan 1 poin. Jika salah, pemain akan kehilangan 1 poin. Permainan akan terus berlanjut sampai ada pemain yang memasukkan "---" sebagai angkanya atau terjadi kesalahan dalam komunikasi.
+After the player sends numbers, the program will receive input numbers from the opponent via the input stream. This input will be decrypted using the decryptWord function. The player whose turn it is will be asked to guess the number entered by the opponent. If the player's guess is correct, the player will get an additional 1 point. If wrong, the player will lose 1 point. The game will continue until a player enters "---" as the number or a communication error occurs.
 
-Pada akhir permainan, program akan menutup semua koneksi dan input/output stream yang digunakan. Jika program berjalan sebagai server, server socket akan ditutup bersama dengan socket yang terhubung. Jika program berjalan sebagai client, socket client akan ditutup.
+At the end of the game, the program will close all connections and input/output streams used. If the program is running as a server, the server socket will be closed along with the socket it is connected to. If the program is running as a client, the client socket will be closed.
 
-Demikianlah penjelasan tentang cara kerja program tersebut secara sederhana. Program ini menggunakan socket untuk menghubungkan dua pemain dan memungkinkan mereka saling berkomunikasi dalam permainan tebak angka.
+Thus an explanation of how the program works in a simple way. This program uses sockets to connect two players and allows them to communicate with each other in a number guessing game.
