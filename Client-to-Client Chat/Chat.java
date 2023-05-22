@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-public class Client {
+public class Chat {
 
   public static void main(String args[]) throws Exception {
     ServerSocket checkServer = null;
