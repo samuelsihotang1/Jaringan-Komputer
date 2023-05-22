@@ -9,3 +9,5 @@ Once the connection is established, a chat loop begins where users can exchange 
 The client receives the encrypted response, decrypts it, and displays the decrypted message from the server. This chat loop continues until either the client or server inputs "exit" as a message, indicating the termination of the conversation.
 
 Finally, when the chat is concluded, the program closes the connections and gracefully terminates. The program utilizes socket communication, encryption, and decryption functions to enable secure communication and facilitate the chat functionality between the client and server.
+
+![Client-to-Client Chat](https://github.com/samuelsihotang1/Jaringan-Komputer/assets/89495323/d53fbab1-818c-4f13-92cf-98857dd2424c)
